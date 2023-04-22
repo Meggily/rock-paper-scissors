@@ -16,7 +16,7 @@ body {
     margin-bottom: 5px;
     cursor: pointer;
     font-size: 24px;
-    background-color: honeydew;
+    background-color: #f0fff0;
 
 }
 
@@ -27,7 +27,7 @@ body {
     margin-top: 5px;
     cursor: pointer;
     font-size: 20px;
-    background-color: honeydew;
+    background-color: #f0fff0;
 }
 
 #scores {

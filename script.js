@@ -11,7 +11,7 @@ let player;
 let computer;
 let result;
 let playerScore = 0;
-let computerScore = 0;
+let computerScore = 0; 
 
 
 const options = ['Rock','Paper','Scissors'];

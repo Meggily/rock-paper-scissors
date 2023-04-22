@@ -1,4 +1,48 @@
-const options = ['rock','paper','scissors'];
+const buttons = document.querySelectorAll('.choices');
+const reset = document.querySelector('#reset');
+const buttonsReset = document.querySelector ('#buttons');
+
+let playerScoreDisplay = document.getElementById('player-score');
+let computerScoreDisplay = document.querySelector('#computer-score');
+let resultsDisplay = document.querySelector("#results");
+const gameOver = document.getElementById('game-over');
+
+let player;
+let computer;
+let result;
+let playerScore = 0;
+let computerScore = 0;
+
+
+const options = ['Rock','Paper','Scissors'];
+
+
+//reset scores and results
+reset.addEventListener('click', resetScores);
+
+function resetScores(){
+    playerScore = 0;
+    computerScore = 0;
+    playerScoreDisplay.innerText = 0;
+    computerScoreDisplay.innerText = 0;
+    resultsDisplay.innerText = "";
+    buttonsReset.style.display = 'inline-block';
+    gameOver.style.display = 'none';
+}
+
+//player button input
+function getPlayerChoice(){
+    buttons.forEach((button) => {
+    button.addEventListener('click', ()=> {
+       player = button.textContent;
+       reset.style.display = "inline-block";
+       computer = getComputerChoice();
+       checkWinner(player, computer);
+       resultsDisplay.innerHTML = result;
+    });
+    });
+}
+getPlayerChoice();
 
 
 //computer random choice
@@ -8,79 +52,31 @@ function getComputerChoice(){
 }
 
 //check winner
-function checkWinner(playerChoice, computerChoice){
-    if(playerChoice == computerChoice){
-        return 'tie';
+function checkWinner(player, computer){
+    if(player == computer){
+        result = 'It\'s a tie!';
     }else if(
-        (playerChoice == 'rock' && computerChoice == 'scissors') ||
-        (playerChoice == 'paper' && computerChoice == 'rock') ||
-        (playerChoice == 'scissors' && computerChoice == 'paper')
+        (player == 'Rock' && computer == 'Scissors') ||
+        (player == 'Paper' && computer == 'Rock') ||
+        (player == 'Scissors' && computer == 'Paper')
     ){
-        return 'player';
+        result = `You win! ${player} beats ${computer}`;
+        playerScoreDisplay.innerHTML = playerScore += 1;
     }else {
-        return 'computer';
+        result = `You Lose. ${computer} beats ${player}`;
+        computerScoreDisplay.innerHTML = computerScore += 1;
     }
-}
-
-function playRound(playerChoice, computerChoice){
-    const result = checkWinner(playerChoice, computerChoice);
-    if(result == 'tie'){
-        return "It's a tie!"
-    }
-    else if(result == 'player'){
-        return `You won! ${playerChoice} beats ${computerChoice}`
-    }
-    else {
-        return `You Lose. ${computerChoice} beats ${playerChoice}`
-    }
-}
-
-//player choice
-function getPlayerChoice(){
-    let validateInput = false;
-    while(validateInput == false){
-        const choice = prompt('Please enter your choice.', 'rock, paper or scissors');
-        if(choice == null){
-            continue;
-        }
-        const choiceInLower = choice.toLowerCase();
-        if(options.includes(choiceInLower)){
-            validateInput = true;
-            return choiceInLower;
-        }
-
-    }
-} 
-
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    console.log('Welcome!')
-    for (let i = 0; i < 5; i++) {
-        const playerChoice = getPlayerChoice();
-        const computerChoice = getComputerChoice();
-        console.log(playRound(playerChoice, computerChoice));
-        if (checkWinner(playerChoice, computerChoice) == 'player'){
-            playerScore++;
-        } 
-        else if (checkWinner(playerChoice, computerChoice) == 'computer'){
-            computerScore++;
-        }
+    if (playerScore >= 5){
+        gameOver.innerHTML = 'Game Over! You Win!'
+        gameOver.style.display = "inline-block";
+        buttonsReset.style.display = 'none';       
+      }else if(computerScore >= 5){
+        gameOver.style.display = "inline-block";
+        gameOver.innerHTML = 'Game Over! Computer Wins.'
+        buttonsReset.style.display = 'none';
+      }
     
-    }
-    console.log('Game Over')
-    if (playerScore > computerScore){
-        console.log('You are the winner!');
-    }
-    else if (playerScore < computerScore){
-        console.log('Computer is the winner.');
-    }
-    else {
-        console.log('There are no winners!');
-    }
 }
-
- game()
 
 
 
